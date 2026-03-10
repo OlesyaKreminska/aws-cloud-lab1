@@ -1,0 +1,2 @@
+namespace = "cloudtech"
+stage     = "dev"
