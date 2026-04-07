@@ -7,13 +7,13 @@ data "aws_iam_policy_document" "lambda_assume_role" {
     }
   }
 }
-# Роль для функції get-all-authors
+
 resource "aws_iam_role" "get_all_authors" {
   name               = "${var.namespace}-${var.stage}-get-all-authors-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
 }
 
-# Політика (дозволи) для цієї ролі
+
 resource "aws_iam_role_policy" "get_all_authors" {
   name   = "dynamodb-scan-authors"
   role   = aws_iam_role.get_all_authors.id
@@ -33,13 +33,13 @@ resource "aws_iam_role_policy" "get_all_authors" {
     ]
   })
 }
-# Роль для функції get-all-courses
+
 resource "aws_iam_role" "get_all_courses" {
   name               = "${var.namespace}-${var.stage}-get-all-courses-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
 }
 
-# Політика (дозволи) для цієї ролі
+
 resource "aws_iam_role_policy" "get_all_courses" {
   name   = "dynamodb-scan-courses"
   role   = aws_iam_role.get_all_courses.id
@@ -59,7 +59,7 @@ resource "aws_iam_role_policy" "get_all_courses" {
     ]
   })
 }
-# Роль для отримання одного курсу
+
 resource "aws_iam_role" "get_course" {
   name               = "${var.namespace}-${var.stage}-get-course-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
@@ -76,7 +76,7 @@ resource "aws_iam_role_policy" "get_course" {
   })
 }
 
-# Роль для створення та оновлення курсу (PutItem)
+
 resource "aws_iam_role" "put_course" {
   name               = "${var.namespace}-${var.stage}-put-course-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
@@ -93,7 +93,7 @@ resource "aws_iam_role_policy" "put_course" {
   })
 }
 
-# Роль для видалення курсу
+
 resource "aws_iam_role" "delete_course" {
   name               = "${var.namespace}-${var.stage}-delete-course-role"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json

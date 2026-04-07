@@ -1,28 +1,8 @@
-#
-# ONLY EDIT THIS FILE IN github.com/cloudposse/terraform-null-label
-# All other instances of this file should be a copy of that one
-#
-#
-# Copy this file from https://github.com/cloudposse/terraform-null-label/blob/master/exports/context.tf
-# and then place it in your Terraform module to automatically get
-# Cloud Posse's standard configuration inputs suitable for passing
-# to Cloud Posse modules.
-#
-# curl -sL https://raw.githubusercontent.com/cloudposse/terraform-null-label/master/exports/context.tf -o context.tf
-#
-# Modules should access the whole context as `module.this.context`
-# to get the input variables with nulls for defaults,
-# for example `context = module.this.context`,
-# and access individual variables as `module.this.<var>`,
-# with final values filled in.
-#
-# For example, when using defaults, `module.this.context.delimiter`
-# will be null, and `module.this.delimiter` will be `-` (hyphen).
-#
+
 
 module "this" {
   source  = "cloudposse/label/null"
-  version = "0.25.0" # requires Terraform >= 0.13.0
+  version = "0.25.0"
 
   enabled             = var.enabled
   namespace           = var.namespace
@@ -45,7 +25,7 @@ module "this" {
   context = var.context
 }
 
-# Copy contents of cloudposse/terraform-null-label/variables.tf here
+
 
 variable "context" {
   type = any
@@ -66,13 +46,7 @@ variable "context" {
     label_key_case      = null
     label_value_case    = null
     descriptor_formats  = {}
-    # Note: we have to use [] instead of null for unset lists due to
-    # https://github.com/hashicorp/terraform/issues/28137
-    # which was not fixed until Terraform 1.0.0,
-    # but we want the default to be all the labels in `label_order`
-    # and we want users to be able to prevent all tag generation
-    # by setting `labels_as_tags` to `[]`, so we need
-    # a different sentinel to indicate "default"
+   
     labels_as_tags = ["unset"]
   }
   description = <<-EOT
@@ -276,4 +250,4 @@ variable "descriptor_formats" {
     EOT
 }
 
-#### End of copy of cloudposse/terraform-null-label/variables.tf
+

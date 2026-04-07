@@ -1,4 +1,4 @@
-# Модуль і таблиця для курсів
+
 module "courses_label" {
   source    = "cloudposse/label/null"
   version   = "0.25.0"
@@ -18,7 +18,7 @@ resource "aws_dynamodb_table" "courses" {
   }
 }
 
-# Модуль і таблиця для авторів
+
 module "authors_label" {
   source    = "cloudposse/label/null"
   version   = "0.25.0"

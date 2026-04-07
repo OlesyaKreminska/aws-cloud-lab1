@@ -1,4 +1,4 @@
-# 1. Створення самого API Gateway
+
 resource "aws_api_gateway_rest_api" "api" {
   name        = "courses-api"
   description = "API for Course Management"
@@ -8,28 +8,28 @@ resource "aws_api_gateway_rest_api" "api" {
   }
 }
 
-# 2. Створення ресурсу /courses
+
 resource "aws_api_gateway_resource" "courses" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
   path_part   = "courses"
 }
 
-# 3. Створення ресурсу /authors
+
 resource "aws_api_gateway_resource" "authors" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
   path_part   = "authors"
 }
 
-# 4. Створення ресурсу /courses/{id} (для конкретного курсу)
+
 resource "aws_api_gateway_resource" "course_id" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_resource.courses.id
   path_part   = "{id}"
 }
 
-# 5. Метод GET для /courses (Отримати всі курси)
+
 resource "aws_api_gateway_method" "get_all_courses" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.courses.id
@@ -37,7 +37,7 @@ resource "aws_api_gateway_method" "get_all_courses" {
   authorization = "NONE"
 }
 
-# 6. Метод POST для /courses (Створити новий курс)
+
 resource "aws_api_gateway_method" "post_course" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.courses.id
@@ -45,7 +45,7 @@ resource "aws_api_gateway_method" "post_course" {
   authorization = "NONE"
 }
 
-# 7. Методи для /courses/{id} (Отримати, Оновити, Видалити конкретний курс)
+
 resource "aws_api_gateway_method" "get_course" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.course_id.id
@@ -67,7 +67,7 @@ resource "aws_api_gateway_method" "delete_course" {
   authorization = "NONE"
 }
 
-# 8. Метод GET для /authors (Отримати всіх авторів)
+
 resource "aws_api_gateway_method" "get_all_authors" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
   resource_id   = aws_api_gateway_resource.authors.id
@@ -75,7 +75,7 @@ resource "aws_api_gateway_method" "get_all_authors" {
   authorization = "NONE"
 }
 
-# 9. Інтеграція Лямбда-функцій з API Gateway
+
 resource "aws_api_gateway_integration" "get_all_courses_integration" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
   resource_id             = aws_api_gateway_resource.courses.id
@@ -103,7 +103,7 @@ resource "aws_api_gateway_integration" "get_all_authors_integration" {
   uri                     = aws_lambda_function.get_all_authors.invoke_arn
 }
 
-# 10. Інтеграція Лямбда-функцій для конкретного курсу (/courses/{id})
+
 resource "aws_api_gateway_integration" "get_course_integration" {
   rest_api_id             = aws_api_gateway_rest_api.api.id
   resource_id             = aws_api_gateway_resource.course_id.id
@@ -131,7 +131,7 @@ resource "aws_api_gateway_integration" "delete_course_integration" {
   uri                     = aws_lambda_function.delete_course.invoke_arn
 }
 
-# 11. Дозволи для API Gateway на виклик Лямбда-функцій
+
 resource "aws_lambda_permission" "apigw_get_all_courses" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
@@ -180,7 +180,7 @@ resource "aws_lambda_permission" "apigw_get_all_authors" {
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
 }
 
-# 12. Налаштування CORS (Методи OPTIONS)
+
 module "cors" {
   source  = "squidfunk/api-gateway-enable-cors/aws"
   version = "0.3.3"
@@ -205,7 +205,7 @@ module "cors_authors" {
   api_resource_id = aws_api_gateway_resource.authors.id
 }
 
-# 13. Розгортання (Deployment) API
+
 resource "aws_api_gateway_deployment" "deployment" {
   depends_on = [
     aws_api_gateway_integration.get_all_courses_integration,
@@ -225,7 +225,7 @@ resource "aws_api_gateway_stage" "dev" {
   stage_name    = "dev"
 }
 
-# Вивід посилання на API після завершення
+
 output "api_url" {
   value = "${aws_api_gateway_stage.dev.invoke_url}"
 }
