@@ -8,6 +8,9 @@ class CourseApi {
     }
 
     static saveCourse(course) {
+      
+     
+
       if (course.id) {
         return fetch(`${SERVER_URL}/${course.id}`, {
             method: 'put',
